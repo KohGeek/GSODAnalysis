@@ -1,5 +1,11 @@
-on: [ push, pull_request, workflow_dispatch ]
 name: Continuous Integration
+on: 
+  push: 
+    branches: 
+      - main
+  pull_request: 
+  workflow_dispatch:
+
 
 jobs:
   lint:
