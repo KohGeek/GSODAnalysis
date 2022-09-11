@@ -12,6 +12,8 @@ services:
         target: /data/db
     environment:
       MONGO_DATA_DIR: /data/db
+    # disable for first run
+    command: [--auth]
       
 volumes:
   mongodb:

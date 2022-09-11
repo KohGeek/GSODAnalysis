@@ -1,0 +1,18 @@
+{
+    "_id": "74486094789",
+    "name": "JFK INTERNATIONAL AIRPORT, NY US",
+    "usaf": "744860",
+    "wban": "94789",
+    "country": {
+        "fips": "US",
+        "name": "United States"
+    },
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            -73.76401,
+            40.63915
+        ]
+    },
+    "elevation": 3.4
+}
