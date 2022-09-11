@@ -1,5 +1,6 @@
 import os
 from argparse import ArgumentParser
+from bson.son import SON
 
 from dotenv import load_dotenv
 import pandas as pd
@@ -8,9 +9,6 @@ import pymongo
 
 def parse_arg():
     parser = ArgumentParser()
-    parser.add_argument(
-        'month', help='month to query', type=int, choices=range(1, 13))
-
     return parser.parse_args()
 
 
@@ -29,10 +27,15 @@ def main():
     client = pymongo.MongoClient(
         f"mongodb://{app_user}:{app_pass}@{host}:{port}/?authSource=admin")
 
-    collection = client["gsod"]["weatherData"]
+    collection = client["gsod"]["stations"]
 
     # Query the database
-    query = collection.aggregate()
+    query = collection.find(
+        {"location": SON(
+            [("$nearSphere", [3, 6]), ("$maxDistance", 30)])}
+    )
+
+    print(list(query))
 
 
 if __name__ == "__main__":

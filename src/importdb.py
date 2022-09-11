@@ -89,7 +89,7 @@ def process_data(data, station, database):
 
         timestamp = key
         summary = OrderedDict()
-        summary["tempature"] = value["TEMP"]
+        summary["temperature"] = value["TEMP"]
         summary["dewPoint"] = value["DEWP"]
         summary["seaLevelPressure"] = value["SLP"]
         summary["stationPressure"] = value["STP"]
@@ -97,8 +97,8 @@ def process_data(data, station, database):
         summary["windSpeed"] = value["WDSP"]
         summary["maxSustainedWindSpeed"] = value["MXSPD"]
         summary["gust"] = value["GUST"]
-        summary["maxverature"] = value["MAX"]
-        summary["minverature"] = value["MIN"]
+        summary["maxTemperature"] = value["MAX"]
+        summary["minTemperature"] = value["MIN"]
         summary["precipitation"] = value["PRCP"]
         summary["snowDepth"] = value["SNDP"]
         summary["indicators"] = indicators
