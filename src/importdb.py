@@ -72,8 +72,11 @@ def process_data(data, station, database):
                                     "coordinates": [data["LONGITUDE"][0], data["LATITUDE"][0]]}),
                                 ("elevation", data["ELEVATION"][0])])
 
-    database["stations"].update_one(
-        {"_id": station_id}, {"$set": station_dict}, upsert=True)
+    try:
+        database["stations"].update_one(
+            {"_id": station_id}, {"$set": station_dict}, upsert=True)
+    except pymongo.errors.WriteError:
+        print(f"Station {station_id} failed")
 
     data = data.drop(columns=["STATION", "NAME", "LATITUDE", "LONGITUDE",
                               "ELEVATION"])
@@ -114,6 +117,8 @@ def process_data(data, station, database):
     except pymongo.errors.DuplicateKeyError as exception:
         print(exception)
     except pymongo.errors.BulkWriteError as exception:
+        print(exception)
+    except pymongo.errors.WriteError as exception:
         print(exception)
 
 
