@@ -1,0 +1,42 @@
+{
+    "_id": "74486094789_2019-01-01T00:00:00.000Z",
+    "station": {
+        "_id": "74486094789",
+        "name": "JFK INTERNATIONAL AIRPORT, NY US",
+        "usaf": "744860",
+        "wban": "94789",
+        "country": {
+            "fips": "US",
+            "name": "United States"
+        },
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -73.76401,
+                40.63915
+            ]
+        },
+        "elevation": 3.4
+    },
+    "timestamp": "2019-01-01T00:00:00.000Z",
+    "temperature": 50.7,
+    "dewPoint": 45.2,
+    "seaLevelPressure": 1011.3,
+    "stationPressure": 9.2,
+    "visibility": 6.6,
+    "windSpeed": 15,
+    "maxSustainedWindSpeed": 28,
+    "gust": 35,
+    "maxTemperature": 59,
+    "minTemperature": 30,
+    "precipitation": 1.34,
+    "snowDepth": null,
+    "indicators": {
+        "fog": 1,
+        "rain": 1,
+        "snow": 0,
+        "hail": 0,
+        "thunder": 0,
+        "tornado": 0
+    }
+}
