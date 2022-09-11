@@ -111,6 +111,7 @@ env.bak/
 venv.bak/
 include/
 scripts/
+share/
 pyvenv.cfg
 
 # Spyder project settings

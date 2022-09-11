@@ -1,20 +1,11 @@
 import os
-from argparse import ArgumentParser
 from bson.son import SON
 
 from dotenv import load_dotenv
-import pandas as pd
 import pymongo
 
 
-def parse_arg():
-    parser = ArgumentParser()
-    return parser.parse_args()
-
-
 def main():
-    args = parse_arg()
-
     # Load environment variables
     load_dotenv()
 
