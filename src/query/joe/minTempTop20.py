@@ -14,7 +14,7 @@ docs = db.weatherData.aggregate([
     {"$limit": 20},
     {"$project": {
         "_id": 0,
-        "Top 20 Highest Temperature": "$temperature",
+        "Top 20 Lowest Temperature": "$temperature",
         "Country": "$station.country.name",
         "Station": "$station.name"
     }}
