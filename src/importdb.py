@@ -113,6 +113,8 @@ def process_data(data, station, database):
         database["weatherData"].insert_many(insert_query)
     except pymongo.errors.DuplicateKeyError as exception:
         print(exception)
+    except pymongo.errors.BulkWriteError as exception:
+        print(exception)
 
 
 def parse_arg():

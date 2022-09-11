@@ -7,11 +7,9 @@ import pymongo
 
 
 def parse_arg():
-    parser = ArgumentParser(description='Import GSOD data into MongoDB')
+    parser = ArgumentParser()
     parser.add_argument(
-        'folder', help='Folder containing GSOD data')
-    parser.add_argument('country', help='Country FIPS file')
-    parser.add_argument('station', help='ISD History file')
+        'month', help='month to query', type=int, choices=range(1, 13))
 
     return parser.parse_args()
 
@@ -34,7 +32,7 @@ def main():
     collection = client["gsod"]["weatherData"]
 
     # Query the database
-    query = collection.find(
+    query = collection.aggregate()
 
 
 if __name__ == "__main__":
