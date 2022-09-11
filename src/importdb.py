@@ -29,7 +29,6 @@ def load_station(station):
 
 
 def load_data(folder, stationdata, database):
-    station_data_count = {}
     # Load data from folder
     for root, _, files in os.walk(folder):
         for file in files:
@@ -47,15 +46,15 @@ def load_data(folder, stationdata, database):
                 if weatherdata["LATITUDE"][0] != 0.0:
                     print(f"{root}\\{file} processing")
                     station_id = weatherdata["STATION"][0]
-                    station = stationdata.loc[station_id]
 
-                    count = process_data(
-                        weatherdata, station, database)
+                    try:
+                        station = stationdata.loc[station_id]
+                    except KeyError:
+                        print(f"Station {station_id} not found")
+                        continue
 
-                    if station_id in station_data_count:
-                        station_data_count[station_id] += count
-                    else:
-                        station_data_count[station_id] = count
+                    process_data(weatherdata, station, database)
+
                 else:
                     print(f"{root}\\{file} skipped")
 
@@ -69,7 +68,8 @@ def process_data(data, station, database):
                                 ("usaf", station_dict["USAF"]),
                                 ("wban", station_dict["WBAN"]),
                                 ("country", country), ("location", {
-                                    "type": "Point", "coordinates": [data["LONGITUDE"][0], data["LATITUDE"][0]]}),
+                                    "type": "Point",
+                                    "coordinates": [data["LONGITUDE"][0], data["LATITUDE"][0]]}),
                                 ("elevation", data["ELEVATION"][0])])
 
     database["stations"].update_one(
@@ -81,13 +81,13 @@ def process_data(data, station, database):
     insert_query = []
     data_dict = data.to_dict(orient="index", into=OrderedDict)
 
-    for k, v in data_dict.items():
-        temp = v["FRSHTT"]
+    for key, value in data_dict.items():
+        temp = value["FRSHTT"]
         indicators = OrderedDict([("fog", temp[0]), ("rain", temp[1]), ("snow", temp[2]),
                                   ("hail", temp[3]), ("thunder", temp[4]), ("tornado", temp[5])])
-        del v["FRSHTT"]
+        del value["FRSHTT"]
 
-        timestamp = k
+        timestamp = key
         summary = OrderedDict()
         summary["tempature"] = v["TEMP"]
         summary["dewPoint"] = v["DEWP"]
@@ -111,10 +111,8 @@ def process_data(data, station, database):
 
     try:
         database["weatherData"].insert_many(insert_query)
-    except pymongo.errors.DuplicateKeyError as e:
-        print(e)
-
-    return len(data)
+    except pymongo.errors.DuplicateKeyError as exception:
+        print(exception)
 
 
 def parse_arg():
