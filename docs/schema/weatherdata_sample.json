@@ -19,26 +19,24 @@
         "elevation": 3.4
     },
     "timestamp": "2019-01-01T00:00:00.000Z",
-    "summary": {
-        "temperature": 50.7,
-        "dewPoint": 45.2,
-        "seaLevelPressure": 1011.3,
-        "stationPressure": 9.2,
-        "visibility": 6.6,
-        "windSpeed": 15,
-        "maxSustainedWindSpeed": 28,
-        "gust": 35,
-        "maxTemperature": 59,
-        "minTemperature": 30,
-        "precipitation": 1.34,
-        "snowDepth": null,
-        "indicator": {
-            "fog": 1,
-            "rain": 1,
-            "snow": 0,
-            "hail": 0,
-            "thunder": 0,
-            "tornado": 0
-        }
+    "temperature": 50.7,
+    "dewPoint": 45.2,
+    "seaLevelPressure": 1011.3,
+    "stationPressure": 9.2,
+    "visibility": 6.6,
+    "windSpeed": 15,
+    "maxSustainedWindSpeed": 28,
+    "gust": 35,
+    "maxTemperature": 59,
+    "minTemperature": 30,
+    "precipitation": 1.34,
+    "snowDepth": null,
+    "indicators": {
+        "fog": 1,
+        "rain": 1,
+        "snow": 0,
+        "hail": 0,
+        "thunder": 0,
+        "tornado": 0
     }
 }

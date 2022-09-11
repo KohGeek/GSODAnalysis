@@ -1,6 +1,6 @@
 import os
 from argparse import ArgumentParser
-from time import sleep
+from collections import OrderedDict
 
 from dotenv import load_dotenv
 import pandas as pd
@@ -9,7 +9,8 @@ import pymongo
 
 def load_fips(country):
     # Load FIPS country codes
-    fips = pd.read_csv(country, sep=r"\s{2,}", engine='python')
+    fips = pd.read_csv(country, sep=r"\s{2,}", names=[
+                       "CTRY", "CTRY_NAME"], engine='python')
 
     return fips
 
@@ -27,7 +28,7 @@ def load_station(station):
     return station
 
 
-def load_data(folder, stationdata, collection):
+def load_data(folder, stationdata, database):
     station_data_count = {}
     # Load data from folder
     for root, _, files in os.walk(folder):
@@ -41,21 +42,79 @@ def load_data(folder, stationdata, collection):
                     "MAX", "MIN", "PRCP", "SNDP", "FRSHTT"],
                     na_values=['9999.9', '999.9', '99.99'],
                     parse_dates=['DATE'], index_col=['DATE'],
-                    infer_datetime_format=True)
+                    infer_datetime_format=True, dtype={"STATION": str, "FRSHTT": str})
 
                 if weatherdata["LATITUDE"][0] != 0.0:
                     print(f"{root}\\{file} processing")
-                    station_id = process_data(
-                        weatherdata, stationdata, collection)
+                    station_id = weatherdata["STATION"][0]
+                    station = stationdata.loc[station_id]
 
+                    count = process_data(
+                        weatherdata, station, database)
+
+                    if station_id in station_data_count:
+                        station_data_count[station_id] += count
+                    else:
+                        station_data_count[station_id] = count
                 else:
                     print(f"{root}\\{file} skipped")
 
 
-def process_data(data, stationdata, collection):
-    # Get station data
+def process_data(data, station, database):
+    station_id = data["STATION"][0]
+    station_dict = station.to_dict()
+    country = OrderedDict([("fips", station_dict["CTRY"]),
+                           ("name", station_dict["CTRY_NAME"])])
+    station_dict = OrderedDict([("_id", station_id), ("name", data["NAME"][0]),
+                                ("usaf", station_dict["USAF"]),
+                                ("wban", station_dict["WBAN"]),
+                                ("country", country), ("location", {
+                                    "type": "Point", "coordinates": [data["LONGITUDE"][0], data["LATITUDE"][0]]}),
+                                ("elevation", data["ELEVATION"][0])])
 
-    return station_id
+    database["stations"].update_one(
+        {"_id": station_id}, {"$set": station_dict}, upsert=True)
+
+    data = data.drop(columns=["STATION", "NAME", "LATITUDE", "LONGITUDE",
+                              "ELEVATION"])
+
+    insert_query = []
+    data_dict = data.to_dict(orient="index", into=OrderedDict)
+
+    for k, v in data_dict.items():
+        temp = v["FRSHTT"]
+        indicators = OrderedDict([("fog", temp[0]), ("rain", temp[1]), ("snow", temp[2]),
+                                  ("hail", temp[3]), ("thunder", temp[4]), ("tornado", temp[5])])
+        del v["FRSHTT"]
+
+        timestamp = k
+        summary = OrderedDict()
+        summary["tempature"] = v["TEMP"]
+        summary["dewPoint"] = v["DEWP"]
+        summary["seaLevelPressure"] = v["SLP"]
+        summary["stationPressure"] = v["STP"]
+        summary["visibility"] = v["VISIB"]
+        summary["windSpeed"] = v["WDSP"]
+        summary["maxSustainedWindSpeed"] = v["MXSPD"]
+        summary["gust"] = v["GUST"]
+        summary["maxverature"] = v["MAX"]
+        summary["minverature"] = v["MIN"]
+        summary["precipitation"] = v["PRCP"]
+        summary["snowDepth"] = v["SNDP"]
+        summary["indicators"] = indicators
+
+        datarow = OrderedDict(
+            [("station", station_dict), ("timestamp", timestamp)])
+        datarow.update(summary)
+
+        insert_query.append(datarow)
+
+    try:
+        database["weatherData"].insert_many(insert_query)
+    except pymongo.errors.DuplicateKeyError as e:
+        print(e)
+
+    return len(data)
 
 
 def parse_arg():
@@ -73,9 +132,9 @@ def main():
 
     countrydata = load_fips(args.country)
     stationdata = load_station(args.station)
-
-    print(countrydata)
-    print(stationdata)
+    stationdata = stationdata.reset_index().merge(
+        countrydata, on=['CTRY'], how='left')
+    stationdata = stationdata.set_index("STATION")
 
     # Load environment variables
     load_dotenv()
@@ -87,10 +146,11 @@ def main():
 
     # Connect to MongoDB
     client = pymongo.MongoClient(
-        f"mongodb://{admin_user}:{admin_pass}@{host}:{port}/?authSource=admin")
+        f"mongodb://{admin_user}:{admin_pass}@{host}:{port}/?authSource=admin",
+        document_class=OrderedDict)
 
-    collection = client["gsod"]["weatherData"]
-    load_data(args.folder, stationdata, collection)
+    database = client["gsod"]
+    load_data(args.folder, stationdata, database)
 
 
 if __name__ == "__main__":
