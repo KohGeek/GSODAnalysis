@@ -5,7 +5,6 @@
         "name": "JFK INTERNATIONAL AIRPORT, NY US",
         "usaf": "744860",
         "wban": "94789",
-        "icao": "KJFK",
         "country": {
             "fips": "US",
             "name": "United States"
@@ -19,8 +18,8 @@
         },
         "elevation": 3.4
     },
-    "date": "2019-01-01T00:00:00.000Z",
-    "data": {
+    "timestamp": "2019-01-01T00:00:00.000Z",
+    "summary": {
         "temperature": 50.7,
         "dewPoint": 45.2,
         "seaLevelPressure": 1011.3,

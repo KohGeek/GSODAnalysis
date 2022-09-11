@@ -14,7 +14,7 @@ All GSOD data is available from the NOAA website [https://www.ncei.noaa.gov/meta
 
 ## Deployment
 
-Setup venv on the local directory and install the requirements.txt file. Setup a .env file by referring to `.env.example` file.
+Setup venv on the local directory and install the requirements.txt file. Setup a .env file by referring to `.env.example` file. The following example is for a Linux environment:
 
 ```bash
 python3 -m venv .
