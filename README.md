@@ -33,4 +33,9 @@ When launching mongodb server for the first time, run the `setup/initialise_db.j
 
 ## Usage
 
-Todo
+Import the data by running the `import_data.py` script. This will import the data from the `data/` directory into the MongoDB server.
+
+```bash
+python import_data.py <gsod_csv_directory> <isd_history.csv> <country.txt>
+```
+
