@@ -33,10 +33,10 @@ db.createCollection("weatherData", {
 });
 
 db.stations.createIndex({
-  "station.location": "2dsphere",
-  "station.name": 1,
-  "station.country.name": 1,
-  "station.elevation": 1,
+  "location": "2dsphere",
+  "name": 1,
+  "country.name": 1,
+  "elevation": 1,
 }, { collation: { locale: "en", strength: 1 } });
 
 // Create index for station location, name, country name and elevation
@@ -49,23 +49,23 @@ db.weatherData.createIndex({
 }, { collation: { locale: "en", strength: 1 } });
 
 db.weatherData.createIndex({
-  "summary.temperature": 1,
-  "summary.dewPoint": 1,
-  "summary.maxTemperature": 1,
-  "summary.minTemperature": 1,
+  "temperature": 1,
+  "dewPoint": 1,
+  "maxTemperature": 1,
+  "minTemperature": 1,
 })
 
 db.weatherData.createIndex({
-  "summary.windSpeed": 1,
-  "summary.maxSustainedWindSpeed": 1,
-  "summary.gust": 1,
+  "windSpeed": 1,
+  "maxSustainedWindSpeed": 1,
+  "gust": 1,
 })
 
 db.weatherData.createIndex({
-  "summary.seaLevelPressure": 1,
-  "summary.stationPressure": 1,
-  "summary.precipitation": 1,
-  "summary.snowDepth": 1,
+  "seaLevelPressure": 1,
+  "stationPressure": 1,
+  "precipitation": 1,
+  "snowDepth": 1,
 })
 
 print(db.serverStatus());
