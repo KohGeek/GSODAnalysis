@@ -1,8 +1,5 @@
-#Temperature vs Pressure in a box [0,10] to [-10,0]
-
 import pymongo
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
 db = pymongo.MongoClient("mongodb://gsod:1234@0.tcp.ap.ngrok.io:17088").gsod
