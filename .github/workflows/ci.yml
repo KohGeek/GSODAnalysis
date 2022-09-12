@@ -35,11 +35,11 @@ jobs:
         cd proj-9.0.0
         mkdir build && cd build
         cmake ..
-        cmake --build .
-        cmake --build . --target install
-        ctest
-        cp ./bin/* /bin
-        cp ./lib/* /lib
+        sudo cmake --build .
+        sudo cmake --build . --target install
+        sudo ctest
+        sudo cp ./bin/* /bin
+        sudo cp ./lib/* /lib
         cd ../../
 
     - name: Install dependencies

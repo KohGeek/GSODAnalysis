@@ -47,8 +47,15 @@ If you use Windows, `pip install -r requirements.txt` could throw error due to m
 - Fiona
 - GDAL
 - Cartopy
+- Shapely
+- Pyproj
+- Numpy with MKL support
 
 Run `pip install <wheel_file_name>` for each of the files, then run `pip install -r requirements.txt` again to install the rest of the dependencies.
+
+### Conda
+
+Alternatively, just use conda because it's easier. Cartopy is a pain to install anywhere. Instruction to use conda are not included.
 
 ## Usage
 
