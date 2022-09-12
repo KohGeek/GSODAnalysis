@@ -1,4 +1,3 @@
-name: gsod-analysis
 channels:
   - defaults
 dependencies:

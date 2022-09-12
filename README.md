@@ -25,7 +25,7 @@ conda init
 Create an local conda environment with the following command:
 
 ```bash
-conda env create -f environment.yml -n gsod-analysis
+conda env create --file environment.yml -n gsod-analysis
 ```
 
 Activate the environment, install the local environment as temporary package and also install the `requirements.txt` file:
