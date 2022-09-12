@@ -10,6 +10,9 @@ on:
 jobs:
   lint:
     name: Linting
+    defaults:
+      run:
+        shell: bash -l {0}
     strategy:
       matrix:
         python-version: ["3.9"]
@@ -22,11 +25,12 @@ jobs:
     - name: Install conda & dependencies
       uses: conda-incubator/setup-miniconda@v2
       with:
+        activate-environment: gsod-analysis
         auto-update-conda: true
+        auto-activate-base: false
         python-version: ${{ matrix.python-version }}
         environment-file: environment.yml
 
     - name: Analysing the code with pylint
       run: |
-        conda activate gsod-analysis
         pylint $(git ls-files '*.py') --fail-under=8 --disable=C0111 --rcfile=.pylintrc
