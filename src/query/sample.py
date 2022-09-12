@@ -1,6 +1,6 @@
 from bson.son import SON
 
-from src.tools.getdb import get_db
+from gsodtools.getdb import get_db
 
 
 def main():

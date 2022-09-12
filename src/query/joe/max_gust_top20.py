@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.tools.getdb import get_db
+from gsodtools.getdb import get_db
 
 db = get_db().gsod
 

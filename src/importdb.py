@@ -6,7 +6,7 @@ from math import isnan
 import pandas as pd
 import pymongo
 
-from src.tools.getdb import get_db
+from gsodtools.getdb import get_db
 
 
 def load_fips(country):
