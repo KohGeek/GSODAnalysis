@@ -2,10 +2,11 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import pymongo
 from numpy import NaN
 
-db = pymongo.MongoClient("mongodb://gsod:1234@0.tcp.ap.ngrok.io:17088").gsod
+from src.tools.getdb import get_db
+
+db = get_db().gsod
 
 df1 = pd.DataFrame([])
 
