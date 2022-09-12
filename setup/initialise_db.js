@@ -6,8 +6,7 @@ db.createUser({
   user: "root_admin",
   pwd: passwordPrompt(),
   roles: [
-    { role: "userAdminAnyDatabase", db: "admin" },
-    { role: "readWriteAnyDatabase", db: "admin" },
+    { role: "root", db: "admin" },
   ],
 });
 
@@ -32,27 +31,56 @@ db.createCollection("weatherData", {
   }
 });
 
+
+//Create indexes for stations
 db.stations.createIndex({
   "location": "2dsphere",
-  "name": 1,
-  "country.name": 1,
+});
+
+db.stations.createIndex({
   "elevation": 1,
+});
+
+db.stations.createIndex({
+  "country.fips": 1,
 }, { collation: { locale: "en", strength: 1 } });
 
-// Create index for station location, name, country name and elevation
+db.stations.createIndex({
+  "country.name": "text",
+}, { collation: { locale: "en", strength: 1 } });
+
+
+
+// Create index for weatherData
 db.weatherData.createIndex({
   "station.location": "2dsphere",
-  "station.name": 1,
-  "station.country.name": 1,
+});
+
+db.weatherData.createIndex({
   "station.elevation": 1,
-  "timestamp": 1,
+});
+
+db.weatherData.createIndex({
+  "station.country.name": 1,
 }, { collation: { locale: "en", strength: 1 } });
+
+db.weatherData.createIndex({
+  "station.country.fips": 1,
+}, { collation: { locale: "en", strength: 1 } });
+
+db.weatherData.createIndex({
+  "timestamp": -1,
+});
 
 db.weatherData.createIndex({
   "temperature": 1,
-  "dewPoint": 1,
   "maxTemperature": 1,
   "minTemperature": 1,
+})
+
+db.weatherData.createIndex({
+  "dewPoint": 1,
+  "visibility": 1,
 })
 
 db.weatherData.createIndex({
@@ -64,8 +92,13 @@ db.weatherData.createIndex({
 db.weatherData.createIndex({
   "seaLevelPressure": 1,
   "stationPressure": 1,
+})
+
+db.weatherData.createIndex({
   "precipitation": 1,
   "snowDepth": 1,
 })
+
+
 
 print(db.serverStatus());
