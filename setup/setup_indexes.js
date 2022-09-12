@@ -1,5 +1,5 @@
 let conn = new Mongo();
-db = conn.getDB("jsod");
+db = conn.getDB("gsod");
 
 //Create indexes for stations
 db.stations.createIndex({
@@ -16,7 +16,7 @@ db.stations.createIndex({
 
 db.stations.createIndex({
   "country.name": "text",
-}, { collation: { locale: "en", strength: 1 } });
+});
 
 
 
