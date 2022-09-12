@@ -1,0 +1,12 @@
+name: gsod-analysis
+channels:
+  - defaults
+dependencies:
+  - autopep8
+  - cartopy
+  - matplotlib
+  - numpy
+  - pandas
+  - pylint
+  - pymongo
+
