@@ -2,9 +2,10 @@ import os
 from argparse import ArgumentParser
 from collections import OrderedDict
 
-from dotenv import load_dotenv
 import pandas as pd
 import pymongo
+
+from src.tools.getdb import get_db
 
 
 def load_fips(country):
@@ -45,12 +46,11 @@ def load_data(folder, stationdata, database):
 
                 if weatherdata["LATITUDE"][0] != 0.0:
                     print(f"{root}\\{file} processing")
-                    station_id = weatherdata["STATION"][0]
 
                     try:
-                        station = stationdata.loc[station_id]
-                    except KeyError:
-                        print(f"Station {station_id} not found")
+                        station = stationdata.loc[weatherdata["STATION"][0]]
+                    except KeyError as exception:
+                        print(f"Station {exception.args[0]} not found")
                         continue
 
                     process_data(weatherdata, station, database)
@@ -88,9 +88,7 @@ def process_data(data, station, database):
         temp = value["FRSHTT"]
         indicators = OrderedDict([("fog", temp[0]), ("rain", temp[1]), ("snow", temp[2]),
                                   ("hail", temp[3]), ("thunder", temp[4]), ("tornado", temp[5])])
-        del value["FRSHTT"]
 
-        timestamp = key
         summary = OrderedDict()
         summary["temperature"] = value["TEMP"]
         summary["dewPoint"] = value["DEWP"]
@@ -107,7 +105,7 @@ def process_data(data, station, database):
         summary["indicators"] = indicators
 
         datarow = OrderedDict(
-            [("station", station_dict), ("timestamp", timestamp)])
+            [("station", station_dict), ("timestamp", key)])
         datarow.update(summary)
 
         insert_query.append(datarow)
@@ -141,18 +139,7 @@ def main():
         countrydata, on=['CTRY'], how='left')
     stationdata = stationdata.set_index("STATION")
 
-    # Load environment variables
-    load_dotenv()
-
-    admin_user = os.getenv('ADMIN_USER')
-    admin_pass = os.getenv('ADMIN_PASS')
-    host = os.getenv('HOST')
-    port = os.getenv('PORT')
-
-    # Connect to MongoDB
-    client = pymongo.MongoClient(
-        f"mongodb://{admin_user}:{admin_pass}@{host}:{port}/?authSource=admin",
-        document_class=OrderedDict)
+    client = get_db(1)
 
     database = client["gsod"]
     load_data(args.folder, stationdata, database)

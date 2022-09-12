@@ -1,11 +1,13 @@
-import pymongo
 import matplotlib.pyplot as plt
 import pandas as pd
 
-db = pymongo.MongoClient("mongodb://gsod:1234@0.tcp.ap.ngrok.io:17088").gsod
+from src.tools.getdb import get_db
 
-docs = db.weatherData.find({"station.location": {"$within": {"$box": [[100, 1], [104, 7]]}}, "station.elevation": {
-                           "$gt": 1000}}, {"temperature": 1, "seaLevelPressure": 1, "_id": 0})
+db = get_db().gsod
+
+docs = db.weatherData.find({"station.location": {"$within": {"$box": [[100, 1], [104, 7]]}},
+                            "station.elevation": {"$gt": 1000}},
+                           {"temperature": 1, "seaLevelPressure": 1, "_id": 0})
 
 data = pd.DataFrame(list(docs))
 

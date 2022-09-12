@@ -1,8 +1,9 @@
-import pymongo
 import matplotlib.pyplot as plt
 import pandas as pd
 
-db = pymongo.MongoClient("mongodb://gsod:1234@0.tcp.ap.ngrok.io:17088").gsod
+from src.tools.getdb import get_db
+
+db = get_db().gsod
 
 docs = db.weatherData.aggregate([
     {"$match": {"station.country.fips": "US"}},

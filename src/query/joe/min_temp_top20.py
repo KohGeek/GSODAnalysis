@@ -1,9 +1,9 @@
 import pandas as pd
-import pymongo
 from numpy import NaN
 
+from src.tools.getdb import get_db
 
-db = pymongo.MongoClient("mongodb://gsod:1234@0.tcp.ap.ngrok.io:17088").gsod
+db = get_db().gsod
 
 df = pd.DataFrame([])
 
