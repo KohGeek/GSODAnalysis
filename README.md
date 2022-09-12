@@ -40,6 +40,16 @@ docker-compose -f docker.yml up -d
 
 When launching mongodb server for the first time, run the `setup/initialise_db.js` python script to automatically setup the server.
 
+### Windows
+
+If you use Windows, `pip install -r requirements.txt` could throw error due to missing dependencies. If this happens, install the wheel files from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/) for the files below:
+
+- Fiona
+- GDAL
+- Cartopy
+
+Run `pip install <wheel_file_name>` for each of the files, then run `pip install -r requirements.txt` again to install the rest of the dependencies.
+
 ## Usage
 
 Data downloaded from the website is in a .tar.gz form. Untar the file using `setup/untar.py` script. The script will automatically untar all files in subdirectories.
