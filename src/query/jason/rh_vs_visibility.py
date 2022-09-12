@@ -3,7 +3,6 @@
 import math
 import pandas as pd
 import matplotlib.pyplot as plt
-from numpy import NaN
 
 from src.tools.getdb import get_db
 

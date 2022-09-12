@@ -1,5 +1,4 @@
 import pandas as pd
-from numpy import NaN
 
 from src.tools.getdb import get_db
 
