@@ -24,10 +24,26 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Prepare environment to compile proj
+      run: |
+        sudo apt -y install libgeos-dev proj-data cmake sqlite3 curl libcurl4-openssl-dev
+
+    - name: Compile and install proj
+      run: |
+        wget https://download.osgeo.org/proj/proj-9.0.0.tar.gz 
+        tar -xf proj-9.0.0.tar.gz
+        cd proj-9.0.0
+        mkdir build && cd build
+        cmake ..
+        cmake --build .
+        cmake --build . --target install
+        ctest
+        cp ./bin/* /bin
+        cp ./lib/* /lib
+        cd ../../
+
     - name: Install dependencies
       run: |
-        sudo apt -y install libgeos-dev proj-data
-        export PYTHONPATH="$PYTHONPATH:$(pwd)"
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
