@@ -1,6 +1,7 @@
 import os
 from argparse import ArgumentParser
 from collections import OrderedDict
+from math import isnan
 
 import pandas as pd
 import pymongo
@@ -102,6 +103,7 @@ def process_data(data, station, database):
         summary["minTemperature"] = value["MIN"]
         summary["precipitation"] = value["PRCP"]
         summary["snowDepth"] = value["SNDP"]
+        summary = {k: summary[k] for k in summary if not isnan(summary[k])}
         summary["indicators"] = indicators
 
         datarow = OrderedDict(
