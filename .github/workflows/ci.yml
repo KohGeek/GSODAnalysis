@@ -19,22 +19,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install conda
-      run: |
-        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-        bash miniconda.sh -b -p $HOME/miniconda
-        source "$HOME/miniconda/etc/profile.d/conda.sh"
-        hash -r
-        conda config --set always_yes yes --set changeps1 no
-        conda update -q conda
-        conda init bash
-
-    - name: Install dependencies
-      run: |
-        conda env create -q -n test-environment --file environment.yml
-        conda activate test-environment
-        pip install --editable .
-        pip install -r requirements.txt
+    - name: Install conda & dependencies
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+        python-version: ${{ matrix.python-version }}
+        environment-file: environment.yml
+        activate-environment: gsod-analysis
 
     - name: Analysing the code with pylint
       run: |
