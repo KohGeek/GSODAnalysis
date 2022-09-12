@@ -1,5 +1,4 @@
 dependencies:
-  - autopep8
   - cartopy
   - matplotlib
   - numpy
