@@ -14,8 +14,6 @@ cols = db.weatherData
 
 docs = cols.aggregate([
     {"$limit": 1000000},
-    {"$match": {"coordinate": {"$ne": NaN}, "temperature": {
-        "$ne": NaN}, "elevation": {"$ne": NaN}}},
     {"$group": {
         "_id":  {"coordinate": "$station.location.coordinates",
                  "elevation": "$station.elevation"},

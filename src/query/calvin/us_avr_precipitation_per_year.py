@@ -8,7 +8,6 @@ db = get_db().gsod
 
 docs = db.weatherData.aggregate([
     {"$match": {"station.country.fips": "US"}},
-    {"$match": {"precipitation": {"$ne": np.NaN}}},
     {"$group": {
         "_id": {"$year": "$timestamp"},
         "precipitation": {"$avg": "$precipitation"}

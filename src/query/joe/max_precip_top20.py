@@ -8,7 +8,6 @@ db = get_db().gsod
 df = pd.DataFrame([])
 
 docs = db.weatherData.aggregate([
-    {"$match": {"precipitation": {"$ne": NaN}}},
     {"$sort": {"precipitation": -1}},
     {"$limit": 20},
     {"$project": {

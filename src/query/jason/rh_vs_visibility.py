@@ -15,8 +15,6 @@ cols = db.weatherData
 
 docs = cols.aggregate([
     {"$limit": 1000000},
-    {"$match": {"dewPoint": {"$ne": NaN}, "temperature": {
-        "$ne": NaN}, "visibility": {"$ne": NaN}}},
     {"$group": {
         "_id":  {"meanVisibility": {"$avg": "$visibility"}, },
         "meanTemp": {"$avg": "$temperature"},

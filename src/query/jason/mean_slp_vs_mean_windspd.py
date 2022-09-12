@@ -14,7 +14,6 @@ cols = db.weatherData
 
 docs = cols.aggregate([
     {"$limit": 1000000},
-    {"$match": {"seaLevelPressure": {"$ne": NaN}, "windSpeed": {"$ne": NaN}}},
     {"$group": {
         "_id":  {"meanWS": {"$avg": "$windSpeed"}},
         "meanSTP": {"$avg": "$seaLevelPressure"},
