@@ -40,23 +40,6 @@ docker-compose -f docker.yml up -d
 
 When launching mongodb server for the first time, run `mongosh -f setup/initialise_db.js` python script to automatically setup the server. After importing the data, run the `mongosh -f setup/create_indexes.js` script to create the indexes on the database.
 
-### Windows
-
-If you use Windows, `pip install -r requirements.txt` could throw error due to missing dependencies. If this happens, install the wheel files from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/) for the files below:
-
-- Fiona
-- GDAL
-- Cartopy
-- Shapely
-- Pyproj
-- Numpy with MKL support
-
-Run `pip install <wheel_file_name>` for each of the files, then run `pip install -r requirements.txt` again to install the rest of the dependencies.
-
-### Conda
-
-Alternatively, just use conda because it's easier. Cartopy is a pain to install anywhere. Instruction to use conda are not included.
-
 ## Usage
 
 Data downloaded from the website is in a .tar.gz form. Untar the file using `setup/untar.py` script. The script will automatically untar all files in subdirectories.
