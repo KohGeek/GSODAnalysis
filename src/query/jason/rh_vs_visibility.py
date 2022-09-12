@@ -21,8 +21,6 @@ docs = cols.aggregate([
         "_id":  {"meanVisibility": {"$avg": "$visibility"}, },
         "meanTemp": {"$avg": "$temperature"},
         "meanDew": {"$avg": "$dewPoint"},
-
-
     }},
     {"$project": {
         "_id": 0,
