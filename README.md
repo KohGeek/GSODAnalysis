@@ -10,7 +10,7 @@ The codebase for running analysis on recent Global Surface Summary of the Day (G
 
 ## Source
 
-All GSOD data is available from the NOAA website [https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00516/html](here).
+All GSOD data is available from the NOAA website [here](https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00516/html).
 
 ## Deployment
 
@@ -23,7 +23,16 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Run docker-compose to start the MongoDB server, if running a local instance.
+And for the windows environment:
+
+```bash
+python -m venv .
+Scripts\activate.bat
+pip install -r requirements.txt
+copy .env.example .env
+```
+
+Run docker-compose to start the MongoDB server, if running a local instance. Make sure to comment out the `command: [--auth]` on first run.
 
 ```bash
 docker-compose -f docker.yml up -d
@@ -33,9 +42,10 @@ When launching mongodb server for the first time, run the `setup/initialise_db.j
 
 ## Usage
 
-Import the data by running the `import_data.py` script. This will import the data from the `data/` directory into the MongoDB server.
+Data downloaded from the website is in a .tar.gz form. Untar the file using `setup/untar.py` script. The script will automatically untar all files in subdirectories.
+
+Import the data by running the `src\importdb.py` script.
 
 ```bash
 python import_data.py <gsod_csv_directory> <isd_history.csv> <country.txt>
 ```
-
