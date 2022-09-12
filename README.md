@@ -38,7 +38,7 @@ Run docker-compose to start the MongoDB server, if running a local instance. Mak
 docker-compose -f docker.yml up -d
 ```
 
-When launching mongodb server for the first time, run the `setup/initialise_db.js` python script to automatically setup the server.
+When launching mongodb server for the first time, run `mongosh -f setup/initialise_db.js` python script to automatically setup the server. After importing the data, run the `mongosh -f setup/create_indexes.js` script to create the indexes on the database.
 
 ### Windows
 
