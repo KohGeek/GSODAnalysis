@@ -4,19 +4,19 @@ from dotenv import load_dotenv
 import pymongo
 
 
-def get_db(type=0):
+def get_db(usertype=0):
     '''
     Get database connection
-    Type indicates admin or user credential. 0 = user, 1 = admin.
+    Usertype indicates admin or user credential. 0 = user, 1 = admin.
     '''
 
     # Load environment variables
     load_dotenv()
 
-    if type == 0:
+    if usertype == 0:
         username = os.getenv('APP_USER')
         password = os.getenv('APP_PASS')
-    elif type == 1:
+    elif usertype == 1:
         username = os.getenv('ADMIN_USER')
         password = os.getenv('ADMIN_PASS')
     else:

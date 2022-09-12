@@ -5,7 +5,7 @@ from collections import OrderedDict
 import pandas as pd
 import pymongo
 
-import src.tools.getdb as getdb
+from src.tools.getdb import get_db
 
 
 def load_fips(country):
@@ -139,7 +139,7 @@ def main():
         countrydata, on=['CTRY'], how='left')
     stationdata = stationdata.set_index("STATION")
 
-    client = getdb.get_database(1)
+    client = get_db(1)
 
     database = client["gsod"]
     load_data(args.folder, stationdata, database)
