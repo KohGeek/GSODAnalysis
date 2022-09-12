@@ -6,7 +6,7 @@ The codebase for running analysis on recent Global Surface Summary of the Day (G
 
 - MongoDB Server
 - MongoDB Shell (mongosh)
-- Python 3.5+
+- Conda
 
 ## Source
 
@@ -14,23 +14,30 @@ All GSOD data is available from the NOAA website [here](https://www.ncei.noaa.go
 
 ## Deployment
 
-Setup venv on the local directory and install the requirements.txt file. Setup a .env file by referring to `.env.example` file. The following example is for a Linux environment:
+### Python
+
+Initialise your shell with conda:
 
 ```bash
-python3 -m venv .
-source bin/activate
-pip install -r requirements.txt
-cp .env.example .env
+conda init
 ```
 
-And for the windows environment:
+Create an local conda environment with the following command:
 
 ```bash
-python -m venv .
-Scripts\activate.bat
-pip install -r requirements.txt
-copy .env.example .env
+conda env create --file environment.yml -n gsod-analysis
 ```
+
+Activate the environment, install the local environment as temporary package and also install the `requirements.txt` file:
+
+```bash
+conda activate gsod-analysis
+pip install --editable .
+pip install -r requirements.txt
+```
+
+
+### MongoDB
 
 Run docker-compose to start the MongoDB server, if running a local instance. Make sure to comment out the `command: [--auth]` on first run.
 
@@ -38,11 +45,11 @@ Run docker-compose to start the MongoDB server, if running a local instance. Mak
 docker-compose -f docker.yml up -d
 ```
 
-When launching mongodb server for the first time, run the `setup/initialise_db.js` python script to automatically setup the server.
+When launching mongodb server for the first time, run `mongosh -f setup/initialise_db.js` python script to automatically setup the server. After importing the data, run the `mongosh -f setup/create_indexes.js` script to create the indexes on the database.
 
 ## Usage
 
-Data downloaded from the website is in a .tar.gz form. Untar the file using `setup/untar.py` script. The script will automatically untar all files in subdirectories.
+Data downloaded from the website is in a .tar.gz form. Untar the file using `setup/unzip.sh` script. The script will automatically untar all files in subdirectories.
 
 Import the data by running the `src\importdb.py` script.
 

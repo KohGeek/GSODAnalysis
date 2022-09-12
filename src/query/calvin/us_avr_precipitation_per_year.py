@@ -1,14 +1,12 @@
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
-from src.tools.getdb import get_db
+from gsodtools.getdb import get_db
 
 db = get_db().gsod
 
 docs = db.weatherData.aggregate([
     {"$match": {"station.country.fips": "US"}},
-    {"$match": {"precipitation": {"$ne": np.NaN}}},
     {"$group": {
         "_id": {"$year": "$timestamp"},
         "precipitation": {"$avg": "$precipitation"}

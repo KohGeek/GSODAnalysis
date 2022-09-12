@@ -1,14 +1,12 @@
 import pandas as pd
-from numpy import NaN
 
-from src.tools.getdb import get_db
+from gsodtools.getdb import get_db
 
 db = get_db().gsod
 
 df = pd.DataFrame([])
 
 docs = db.weatherData.aggregate([
-    {"$match": {"gust": {"$ne": NaN}}},
     {"$sort": {"gust": -1}},
     {"$limit": 20},
     {"$project": {

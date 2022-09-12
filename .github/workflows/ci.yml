@@ -10,26 +10,27 @@ on:
 jobs:
   lint:
     name: Linting
+    defaults:
+      run:
+        shell: bash -l {0}
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
-        os: ["ubuntu-latest", "windows-latest"]
+        python-version: ["3.9"]
+        os: ["ubuntu-latest"]
     runs-on: ${{ matrix.os }}
     
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+    - name: Install conda & dependencies
+      uses: conda-incubator/setup-miniconda@v2
       with:
+        activate-environment: gsod-analysis
+        auto-update-conda: true
+        auto-activate-base: false
         python-version: ${{ matrix.python-version }}
-
-    - name: Install dependencies
-      run: |
-        export PYTHONPATH="$PYTHONPATH:$(pwd)"
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        environment-file: environment.yml
 
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --fail-under=8 --disable=C0111
+        pylint $(git ls-files '*.py') --fail-under=8 --disable=C0111 --rcfile=.pylintrc

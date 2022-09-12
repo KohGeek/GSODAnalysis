@@ -3,9 +3,8 @@
 import math
 import pandas as pd
 import matplotlib.pyplot as plt
-from numpy import NaN
 
-from src.tools.getdb import get_db
+from gsodtools.getdb import get_db
 
 db = get_db().gsod
 
@@ -15,8 +14,6 @@ cols = db.weatherData
 
 docs = cols.aggregate([
     {"$limit": 1000000},
-    {"$match": {"dewPoint": {"$ne": NaN}, "temperature": {
-        "$ne": NaN}, "visibility": {"$ne": NaN}}},
     {"$group": {
         "_id":  {"meanVisibility": {"$avg": "$visibility"}, },
         "meanTemp": {"$avg": "$temperature"},
