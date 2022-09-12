@@ -25,8 +25,8 @@ jobs:
         auto-update-conda: true
         python-version: ${{ matrix.python-version }}
         environment-file: environment.yml
-        activate-environment: gsod-analysis
 
     - name: Analysing the code with pylint
       run: |
+        conda activate gsod-analysis
         pylint $(git ls-files '*.py') --fail-under=8 --disable=C0111 --rcfile=.pylintrc
