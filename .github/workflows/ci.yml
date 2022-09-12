@@ -12,18 +12,13 @@ jobs:
     name: Linting
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.9"]
         os: ["ubuntu-latest"]
     runs-on: ${{ matrix.os }}
     
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    
     - name: Install conda
       run: |
         wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
@@ -35,7 +30,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        conda create -q -n test-environment --file environment.yml
+        conda env create -q -n test-environment --file environment.yml
         conda activate test-environment
         pip install --editable .
         pip install -r requirements.txt
