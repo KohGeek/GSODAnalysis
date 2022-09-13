@@ -12,4 +12,5 @@ dependencies:
   - pymongo
   - pip
   - pip:
+    - geojson
     - python-dotenv
