@@ -105,7 +105,6 @@ def main():
                     s=max(row["max_wind"]*5, (row["radius_max_wind"])*10), transform=ccrs.PlateCarree(),
                     alpha=0.6)
 
-                print(typhoon[:i+1])
                 axis.plot([x["longitude"] for x in typhoon[:i+1]],
                           [x["latitude"] for x in typhoon[:i+1]],
                           c="#000000", alpha=0.6,
