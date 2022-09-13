@@ -16,7 +16,7 @@ def max_gust(database):
 
     dataframe = pd.DataFrame(list(docs))
     print(dataframe)
-    
+
 
 def max_temp(database):
     '''Query the database for the top 20 highest temperatures and print them.'''

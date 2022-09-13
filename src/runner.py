@@ -2,7 +2,6 @@ import os
 import platform
 
 from gsodquery import calvin, gsodmaps, joe, jason
-import gsodquery
 from gsodtools import getdb
 
 
