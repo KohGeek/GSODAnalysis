@@ -14,6 +14,10 @@ cols = db.weatherData
 
 docs = cols.aggregate([
     {"$limit": 1000000},
+    {"$match": {"$and": [
+        {"visibility": {"$exists": True}},
+        {"dewPoint": {"$exists": True}}
+    ]}},
     {"$group": {
         "_id":  {"meanVisibility": {"$avg": "$visibility"}, },
         "meanTemp": {"$avg": "$temperature"},
@@ -28,7 +32,6 @@ docs = cols.aggregate([
 ])
 
 df1 = pd.DataFrame(list(docs))
-# display(df1)
 
 meanDews = df1.iloc[:, 0]
 meanTemp = df1.iloc[:, 1]
