@@ -35,6 +35,11 @@ conda activate gsod-analysis
 pip install --editable .
 ```
 
+Prepare a copy of .env file. Edit any field as necessary:
+
+```bash
+cp .env.example .env
+```
 
 ### MongoDB
 
