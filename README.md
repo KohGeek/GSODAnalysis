@@ -33,7 +33,6 @@ Activate the environment, install the local environment as temporary package and
 ```bash
 conda activate gsod-analysis
 pip install --editable .
-pip install -r requirements.txt
 ```
 
 
