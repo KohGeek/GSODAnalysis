@@ -13,7 +13,7 @@ def daterange(start_date, end_date):
 
 
 def main():
-    client = get_db(1)
+    client = get_db()
     database = client["gsod"]
 
     plt.ion()

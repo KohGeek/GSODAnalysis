@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 import time
 
 import cartopy.crs as ccrs
-import geojson
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -47,7 +46,7 @@ def daterange(start_date, end_date):
 
 
 def main():
-    client = get_db(1)
+    client = get_db()
     database = client["gsod"]
     typhoon = typhoon_import("data/typhoonIda.csv").to_dict(orient="records")
 
@@ -120,8 +119,10 @@ def main():
         fig.canvas.flush_events()
 
         scat.remove()
-        typh.remove() if typh else None
-        axis.lines.pop(0) if len(axis.lines) > 0 else None
+        if typh is not None:
+            typh.remove()
+        if len(axis.lines) > 0:
+            axis.lines.pop(0)
         time.sleep(0.3)
 
 
