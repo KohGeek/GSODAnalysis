@@ -60,3 +60,10 @@ Import the data by running the `src\importdb.py` script.
 ```bash
 python import_data.py <gsod_csv_directory> <isd_history.csv> <country.txt>
 ```
+
+Run the runner script by doing `python .\src\runner.py`.
+
+## Todo
+
+[ ] Rewrite mapping as map-reduce functions
+[ ] Rewrite RH v visibility as map-reduce functions
